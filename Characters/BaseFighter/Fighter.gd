@@ -18,6 +18,7 @@ signal move
 signal jump
 
 func _ready():
+	#Stuff That I Copied from GE's Code LOL
 	gravity = 2 * max_jump_height / pow(jump_duration, 2)
 	max_jump_velocity = -sqrt(2 * gravity * max_jump_height)
 	min_jump_velocity = -sqrt(2 * gravity * min_jump_height)
@@ -29,14 +30,14 @@ func _input(event):
 	var direction = "Right" if move_direction > 0 else "Left" if move_direction < 0 else "Idle" #setting the direction variable
 	
 	if event.is_action_pressed("player_jump") and is_on_floor(): #Jump
-		velocity.y += max_jump_velocity  * Speed
-		emit_signal("jump")
+		velocity.y += max_jump_velocity  * Speed #Setting Jump Velocity
+		emit_signal("jump")#Emiting Jump Signal
 	if event.is_action_released("player_jump") and velocity.y < min_jump_velocity:
-		velocity.y = min_jump_velocity
+		velocity.y = min_jump_velocity# Minimum Jump Velocity
 	
 	target_velocity.x = move_direction * Speed#Setting the target velocity
 	
-	emit_signal("move", direction)
+	emit_signal("move", direction)#Emitting Move Signal
 
 func _physics_process(delta):
 	velocity = velocity.linear_interpolate(target_velocity, 0.1) #interpolating the velocity
