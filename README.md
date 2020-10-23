@@ -16,4 +16,4 @@ A chaotic game being made by the developers of GE Community
   
   4.Commit and merge to your master branch
   
-  4.Start a new pull request.
+  5.Start a new pull request.
