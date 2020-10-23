@@ -1,26 +1,29 @@
 extends KinematicBody2D
 
+#Onready Vars
 onready var ground_raycasts = $GroundRaycasts
 onready var body = $Body
 onready var baseFSM = $BaseFSM
 
+#Constants
+const max_speed : int = 580
+const max_strength : int = 100
+const max_defence : int = 100
+var jump_velocity : int = -620
+var min_jump_velocity : int = -200
 
-var velocity = Vector2()
-var max_speed = 580
-var max_strength = 100
-var max_defence = 100
-var speed
-var strength
-var defence
-var jump_velocity = -620
-var min_jump_velocity = -200
-var is_grounded = false
+#Variables
+var velocity : Vector2 = Vector2()
+var speed : int
+var strength : int
+var defence : int
+var is_grounded : bool = false
 
 #these "can" be negative but not zero
 
-export (int) var speed_stat #make it 1-10
-export (int) var strength_stat #same as above make it 1-10 
-export (int) var defence_stat
+export var speed_stat : int #make it 1-10
+export var strength_stat : int #same as above make it 1-10 
+export var defence_stat : int
 
 
 func error_start_check():
@@ -48,17 +51,12 @@ func _ready():
 	else:
 		get_tree().quit()
 
-
 func jump():
 	velocity.y = jump_velocity
 
 func _check_is_grounded():
 	for raycast in ground_raycasts.get_children():
-		if raycast.is_colliding():
-			return true
-	
-	
-	return false
+		return raycast.is_colliding()
 
 func _apply_gravity(delta):
 	velocity.y += Globals.gravity*delta
@@ -67,26 +65,14 @@ func _input(event):
 	if event.is_action_pressed("player_jump") and is_grounded:
 		jump()
 	
-	
-	
 	if event.is_action_released("player_jump") && velocity.y < min_jump_velocity:
 		velocity.y = min_jump_velocity
-
-
-
 
 func _physics_process(delta):
 	_apply_gravity(delta)
 	_handle_sideways_movement()
-	
-	
 	velocity = move_and_slide(velocity,Vector2.UP)
-	
-	
 	is_grounded = _check_is_grounded()
-
-
-
 
 func _handle_sideways_movement():
 	var move_direction = -int(Input.is_action_pressed("player_left"))+int(Input.is_action_pressed("player_right"))
@@ -94,13 +80,5 @@ func _handle_sideways_movement():
 	if move_direction != 0:
 		body.scale.x = move_direction
 
-
 func _get_h_weight():
-	if is_grounded:
-		return 0.2
-	else:
-		return 0.1
-
-
-
-
+	return 0.2 if is_grounded else 0.1
