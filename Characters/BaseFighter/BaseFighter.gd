@@ -23,10 +23,8 @@ var defence
 var jump_velocity = -620
 var min_jump_velocity = -200
 var is_grounded = false
-=======
-#Variables
-var velocity : Vector2 = Vector2()
-var is_grounded : bool = false
+
+
 
 export var stats = {
 	"speed" :  0, #make it 1-10
