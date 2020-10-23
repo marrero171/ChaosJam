@@ -19,7 +19,7 @@ export var stats = {
 	"strength" : 0, #same as above, make it 1-10
 	"defense" : 0,
 	"jump_velocity" : -620,
-	"min_jump_velocity" : -200 #reommended -200
+	"min_jump_velocity" : -200 #recommended -200
 }
 
 #these "can" be negative but not zero
