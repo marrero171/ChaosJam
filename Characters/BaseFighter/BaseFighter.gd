@@ -6,23 +6,20 @@ onready var body = $Body
 onready var baseFSM = $BaseFSM
 
 #Constants
-const max_speed : int = 580
-const max_strength : int = 100
-const max_defence : int = 100
-var jump_velocity : int = -620
-var min_jump_velocity : int = -200
+const MAX_SPEED : int = 580
+const MAX_STRENGTH : int = 100
+const MAX_DEFENSE : int = 100
 
 #Variables
 var velocity : Vector2 = Vector2()
-var speed : int
-var strength : int
-var defence : int
 var is_grounded : bool = false
 
 export var stats = {
-	"speed" : 0, #make it 1-10
+	"speed" :  0, #make it 1-10
 	"strength" : 0, #same as above, make it 1-10
-	"defense" : 0
+	"defense" : 0,
+	"jump_velocity" : -620,
+	"min_jump_velocity" : -200 #reommended -200
 }
 
 #these "can" be negative but not zero
@@ -48,15 +45,15 @@ func error_start_check():
 func _ready():
 	set_physics_process(false)
 	if error_start_check():
-		stats.speed = max_speed * stats.speed / 10
-		stats.strength = max_strength * stats.strength / 10
-		stats.defense = max_defense * stats.defense / 10
+		stats.speed = MAX_SPEED * stats.speed / 10
+		stats.strength = MAX_STRENGTH * stats.strength / 10
+		stats.defense = MAX_DEFENSE * stats.defense / 10
 		set_physics_process(true)
 	else:
 		get_tree().quit()
 
 func jump():
-	velocity.y = jump_velocity
+	velocity.y = stats.jump_velocity
 
 func _check_is_grounded():
 	for raycast in ground_raycasts.get_children():
@@ -69,8 +66,8 @@ func _input(event):
 	if event.is_action_pressed("player_jump") and is_grounded:
 		jump()
 	
-	if event.is_action_released("player_jump") && velocity.y < min_jump_velocity:
-		velocity.y = min_jump_velocity
+	if event.is_action_released("player_jump") && velocity.y < stats.min_jump_velocity:
+		velocity.y = stats.min_jump_velocity
 
 func _physics_process(delta):
 	_apply_gravity(delta)

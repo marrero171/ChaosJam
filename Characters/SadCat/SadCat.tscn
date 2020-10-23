@@ -11,6 +11,8 @@ collision_layer = 2
 script = ExtResource( 2 )
 stats = {
 "defense": 10,
+"jump_velocity": -620,
+"min_jump_velocity": -200,
 "speed": 10,
 "strength": 10
 }
