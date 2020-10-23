@@ -10,9 +10,21 @@ const MAX_SPEED : int = 580
 const MAX_STRENGTH : int = 100
 const MAX_DEFENSE : int = 100
 
-#Variables
-var velocity : Vector2 = Vector2()
-var is_grounded : bool = false
+
+
+var move_direction = 0
+var velocity = Vector2()
+var max_speed = 580
+var max_strength = 100
+var max_defence = 100
+var speed
+var strength
+var defence
+var jump_velocity = -620
+var min_jump_velocity = -200
+var is_grounded = false
+
+
 
 export var stats = {
 	"speed" :  0, #make it 1-10
@@ -22,7 +34,9 @@ export var stats = {
 	"min_jump_velocity" : -200 #recommended -200
 }
 
+
 #these "can" be negative but not zero
+
 
 
 
@@ -57,27 +71,37 @@ func jump():
 
 func _check_is_grounded():
 	for raycast in ground_raycasts.get_children():
-		return raycast.is_colliding()
+		if raycast.is_colliding():
+			return true
+	
+	return false
+
 
 func _apply_gravity(delta):
 	velocity.y += Globals.gravity*delta
 
-func _input(event):
-	if event.is_action_pressed("player_jump") and is_grounded:
-		jump()
-	
-	if event.is_action_released("player_jump") && velocity.y < stats.min_jump_velocity:
-		velocity.y = stats.min_jump_velocity
+
+
+
+
+
 
 func _physics_process(delta):
-	_apply_gravity(delta)
-	_handle_sideways_movement()
-	velocity = move_and_slide(velocity,Vector2.UP)
-	is_grounded = _check_is_grounded()
+	pass
+
+
+
+func _apply_movement():
+		velocity = move_and_slide(velocity,Vector2.UP)
+		
+		
+		is_grounded = _check_is_grounded()
+
 
 func _handle_sideways_movement():
-	var move_direction = -int(Input.is_action_pressed("player_left"))+int(Input.is_action_pressed("player_right"))
+	move_direction = -int(Input.is_action_pressed("player_left"))+int(Input.is_action_pressed("player_right"))
 	velocity.x = lerp(velocity.x, stats.speed * move_direction,_get_h_weight())
+
 	if move_direction != 0:
 		body.scale.x = move_direction
 
