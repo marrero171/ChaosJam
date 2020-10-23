@@ -1,4 +1,4 @@
-# ChaosJam
+# ChaoSmash (WIP)
 
 A chaotic game being made by the developers of GE Community
 
@@ -8,10 +8,12 @@ A chaotic game being made by the developers of GE Community
 
 ### How to Contribute to this repository.
 ##### Steps
-  1.Fork this repository
+  1.Fork this repository.
   
-  2.Do the changes
+  2.Make a new branch with the name of the feature you are working on.
   
-  3.Push it to your fork
+  3.Edit in the branch
   
-  4.start a new pull request.
+  4.Commit and merge to your master branch
+  
+  4.Start a new pull request.
