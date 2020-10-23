@@ -14,6 +14,7 @@ const MAX_DEFENSE : int = 100
 var velocity : Vector2 = Vector2()
 var is_grounded : bool = false
 var current_jumps : int = 0
+var move_direction
 
 export var stats = {
 	"speed" :  0, #make it 1-10
@@ -61,7 +62,7 @@ func jump():
 
 func _air_jump():
 	if current_jumps > 0:
-		velocity.y = stats.jump_velocity
+		jump()
 		current_jumps -= 1
 
 
