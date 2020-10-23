@@ -9,9 +9,13 @@ extents = Vector2( 32, 32 )
 [node name="Fighter" type="KinematicBody2D"]
 collision_layer = 2
 script = ExtResource( 2 )
-speed_stat = 10
-strength_stat = 10
-defence_stat = 10
+stats = {
+"defense": 10,
+"jump_velocity": -620,
+"min_jump_velocity": -200,
+"speed": 10,
+"strength": 10
+}
 
 [node name="BaseFSM" type="Node" parent="."]
 
