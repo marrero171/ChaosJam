@@ -13,13 +13,15 @@ const MAX_DEFENSE : int = 100
 #Variables
 var velocity : Vector2 = Vector2()
 var is_grounded : bool = false
+var current_jumps : int = 0
 
 export var stats = {
 	"speed" :  0, #make it 1-10
 	"strength" : 0, #same as above, make it 1-10
 	"defense" : 0,
 	"jump_velocity" : -620,
-	"min_jump_velocity" : -200 #reommended -200
+	"min_jump_velocity" : -200, #reommended -200
+	"air_jumps" : 1
 }
 
 #these "can" be negative but not zero
@@ -55,6 +57,15 @@ func _ready():
 func jump():
 	velocity.y = stats.jump_velocity
 
+func _air_jump():
+	if current_jumps > 0:
+		velocity.y = stats.jump_velocity
+		current_jumps -= 1
+
+
+func _reset_air_jump():
+	current_jumps = stats.air_jumps
+
 func _check_is_grounded():
 	for raycast in ground_raycasts.get_children():
 		return raycast.is_colliding()
@@ -65,11 +76,17 @@ func _apply_gravity(delta):
 func _input(event):
 	if event.is_action_pressed("player_jump") and is_grounded:
 		jump()
-	
+		
+	if event.is_action_pressed("player_jump") && !is_grounded:
+		_air_jump()
+		
 	if event.is_action_released("player_jump") && velocity.y < stats.min_jump_velocity:
 		velocity.y = stats.min_jump_velocity
 
 func _physics_process(delta):
+	if is_grounded && current_jumps != stats.air_jumps:
+		_reset_air_jump()
+	
 	_apply_gravity(delta)
 	_handle_sideways_movement()
 	velocity = move_and_slide(velocity,Vector2.UP)

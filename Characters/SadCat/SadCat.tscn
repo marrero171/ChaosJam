@@ -10,6 +10,7 @@ extents = Vector2( 8, 20 )
 collision_layer = 2
 script = ExtResource( 2 )
 stats = {
+"air_jumps": 1,
 "defense": 10,
 "jump_velocity": -620,
 "min_jump_velocity": -200,
