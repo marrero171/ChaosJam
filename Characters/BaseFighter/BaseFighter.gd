@@ -24,7 +24,9 @@ export var stats = {
 	"air_jumps" : 1
 }
 
+
 #these "can" be negative but not zero
+
 
 
 
@@ -68,33 +70,37 @@ func _reset_air_jump():
 
 func _check_is_grounded():
 	for raycast in ground_raycasts.get_children():
-		return raycast.is_colliding()
+		if raycast.is_colliding():
+			return true
+	
+	return false
+
 
 func _apply_gravity(delta):
 	velocity.y += Globals.gravity*delta
 
-func _input(event):
-	if event.is_action_pressed("player_jump") and is_grounded:
-		jump()
-		
-	if event.is_action_pressed("player_jump") && !is_grounded:
-		_air_jump()
-		
-	if event.is_action_released("player_jump") && velocity.y < stats.min_jump_velocity:
-		velocity.y = stats.min_jump_velocity
+
+
+
+
+
 
 func _physics_process(delta):
-	if is_grounded && current_jumps != stats.air_jumps:
-		_reset_air_jump()
-	
-	_apply_gravity(delta)
-	_handle_sideways_movement()
-	velocity = move_and_slide(velocity,Vector2.UP)
-	is_grounded = _check_is_grounded()
+	pass
+
+
+
+func _apply_movement():
+		velocity = move_and_slide(velocity,Vector2.UP)
+		
+		
+		is_grounded = _check_is_grounded()
+
 
 func _handle_sideways_movement():
-	var move_direction = -int(Input.is_action_pressed("player_left"))+int(Input.is_action_pressed("player_right"))
+	move_direction = -int(Input.is_action_pressed("player_left"))+int(Input.is_action_pressed("player_right"))
 	velocity.x = lerp(velocity.x, stats.speed * move_direction,_get_h_weight())
+
 	if move_direction != 0:
 		body.scale.x = move_direction
 
